@@ -50,7 +50,8 @@ router.post('/signup', function(req, res){
   var params = [username, name, email, password];
   connection.query(sql, params, function (err, result) {
     if (err) throw err;
-    console.log("users inserted: " + result.affectRows);
+		console.log("users inserted: " + result.affectRows);
+		res.send({status: "OK"});
   });
 });
 
