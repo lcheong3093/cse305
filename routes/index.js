@@ -72,7 +72,10 @@ router.get('/home', function(req, res){
 	res.render('home');
 });
 
-//NEED TO TEST
+router.get('/search', function(req, res){
+	res.render('search');
+});
+
 router.post('/search', function(req, res){
 	//Query (required params)
 	var table = req.body.transportation;	//Transportation type
