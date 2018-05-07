@@ -8,8 +8,8 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
-router.get('/ttt', function(req, res){
-  res.render('welcome');
+router.get('/home', function(req, res){
+  res.render('index');
 });
 
 router.post('/ttt', function(req, res){
