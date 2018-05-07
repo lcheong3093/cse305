@@ -48,7 +48,7 @@ router.post('/signup', function(req, res){
 
   var sql = "INSERT INTO users (username, name, email, password) VALUES (?, ?, ?, ?)";
   var params = [username, name, email, password];
-  con.query(sql, params, function (err, result) {
+  connection.query(sql, params, function (err, result) {
     if (err) throw err;
     console.log("users inserted: " + result.affectRows);
   });
