@@ -68,9 +68,9 @@ router.get('/userhome', function(req, res){
 });
 
 //NEED TO TEST
-router.get('/search', function(req, res){
+router.post('/search', function(req, res){
 	//Query (required params)
-	var table = req.body.transportation;
+	var table = req.body.transportation;	//Transportation type
 	var start = req.body.start;
 	var dest = req.body.destination;
 
@@ -81,11 +81,20 @@ router.get('/search', function(req, res){
 			res.send({status: "error"}, "Could not find flights");
 		}else{
 
-			
+
 		}
 
 
 	});
+});
+
+router.post('/book', function(req,res){
+	var type = req.body.type; //What the user is booking (hotel, flight, cruise, etc.)
+
+});
+
+router.post('/book2', fucntion(req,res){
+
 });
 
 
