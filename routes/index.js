@@ -12,6 +12,11 @@ router.get('/home', function(req, res){
   res.render('index');
 });
 
+router.get('/signup', function(req,res){
+	console.log("SIGNUP");
+	res.render('signup');
+});
+
 router.post('/login', function(req, res){
   var user = req.body.username;
   var pass = req.body.password;
