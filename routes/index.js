@@ -8,8 +8,8 @@ var connection = mysql.createConnection({
   host     : 'localhost',
   user	   : 'haoychen',
   password : 'password',
-  database : 'Travel_Agency',
-  insecureAuth: true
+  database : 'Travel_Agency'
+	
 });
 connection.connect(function(err){
 	if(err) throw err;
