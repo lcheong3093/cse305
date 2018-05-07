@@ -88,14 +88,19 @@ router.post('/search', function(req, res){
 	});
 });
 
-router.post('/book', function(req,res){
-	var type = req.body.type; //What the user is booking (hotel, flight, cruise, etc.)
+// router.post('/book', function(req,res){
+// 	var type = req.body.type; //What the user is booking (hotel, flight, cruise, etc.)
 
-});
+// });
 
-router.post('/book2', fucntion(req,res){
+// router.post('/book2', function(req,res){
+// 	var size = req.body.size; //party size
 
-});
+// 	var passengers = [];
+// 	for(var i=0; i<size; i++){
+// 		passengers.push()
+// 	}
+// });
 
 
 
