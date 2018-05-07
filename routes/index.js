@@ -44,7 +44,7 @@ router.post('/signup', function(req, res){
   var email = req.body.email;
   var password = req.body.password;
   
-  console.log("SIGNUP --> user: " + user + " name: " + name + " email: " + email + " pass: " + pass);
+  console.log("SIGNUP --> user: " + username + " name: " + name + " email: " + email + " pass: " + password);
 
   var sql = "INSERT INTO users (username, name, email, password) VALUES (?, ?, ?, ?)";
   var params = [username, name, email, password];
