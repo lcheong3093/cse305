@@ -35,9 +35,13 @@ router.post('/login', function(req, res){
   var user = req.body.username;
   var pass = req.body.password;
 
-  console.log("LOGIN --> user: " + user + " pass: " + pass);
+	console.log("LOGIN --> user: " + user + " pass: " + pass);
+	
+	if(user === 'test' && pass === 'pass')
+		res.render('home');
   
 });
+
 router.post('/signup', function(req, res){
   var name = req.body.name;
   var username = req.body.username;
@@ -50,91 +54,38 @@ router.post('/signup', function(req, res){
   var params = [username, name, email, password];
   connection.query(sql, params, function (err, result) {
 		if (err) {
-			throw err;
+			// throw err;
 			res.send({status: "error"});
+		}else{
+			console.log("users inserted: " + result.affectRows);
+			res.send({status: "OK"});
 		}
-		console.log("users inserted: " + result.affectRows);
-		res.send({status: "OK"});
   });
 });
 
-router.post('/ttt/play', function(req, res) {
-  console.log("gets to server"); 
-  
-  /*
-  for(i = 0; i < 9; i++){
-	  console.log("b" + i + " : " + req.body.i);
-  }
-  */
-  
-  var grid = req.body.grid;
-  
-  for(j = 0; j < 9; j++){
-	  console.log("grid" + grid[j]);
-  }
- 
-  var winner = checkWinner(grid);
-  var new_grid = serverMove(grid);
-  
-  for(i = 0; i < 9; i++){
-	  console.log("grid" + new_grid[i]);
-  }  
-  console.log("winner: " + winner + "WOWW");
-  
-  var data = {grid:new_grid, winner:winner};
-  
-  res.send(data);
+router.get('/userhome', function(req, res){
+	res.render('home');
 });
 
-//Gameplay
-function checkWinner(grid){	
-	if(grid[0] === "O" && grid[1] === "O" && grid[2] === "O")
-		return "O";
-	if(grid[0] === "O" && grid[3] === "O" && grid[6] === "O")
-		return "O";
-	if(grid[0] === "O" && grid[4] === "O" && grid[8] === "O")
-		return "O";
-	if(grid[1] === "O" && grid[4] === "O" && grid[7] === "O")
-		return "O";
-	if(grid[2] === "O" && grid[5] === "O" && grid[8] === "O")
-		return "O";
-	if(grid[2] === "O" && grid[4] === "O" && grid[6] === "O")
-		return "O";
-	if(grid[3] === "O" && grid[4] === "O" && grid[5] === "O")
-		return "O";
-	if(grid[6] === "O" && grid[7] === "O" && grid[8] === "O")
-		return "O";
-		
-	if(grid[0] === "X" && grid[1] === "X" && grid[2] === "X")
-		return "X";
-	if(grid[0] === "X" && grid[3] === "X" && grid[6] === "X"){
-		console.log("HELLO???");
-		return "X";
-	}
-	if(grid[0] === "X" && grid[4] === "X" && grid[8] === "X")
-		return "X";
-	if(grid[1] === "X" && grid[4] === "X" && grid[7] === "X")
-		return "X";
-	if(grid[2] === "X" && grid[5] === "X" && grid[8] === "X")
-		return "X";
-	if(grid[2] === "X" && grid[4] === "X" && grid[6] === "X")
-		return "X";
-	if(grid[3] === "X" && grid[4] === "X" && grid[5] === "X")
-		return "X";
-	if(grid[6] === "X" && grid[7] === "X" && grid[8] === "X")
-		return "X";
-	
-	return " ";
-}
+//NEED TO TEST
+router.get('/search', function(req, res){
+	//Query (required params)
+	var table = req.body.transportation;
+	var start = req.body.start;
+	var dest = req.body.destination;
 
-function serverMove(grid){
-	for(i = 0; i < 9; i++){
-		if(grid[i] === " "){
-			grid[i] = 'O';
-			return grid;
+	var query = "SELECT StartLocation, Destination FROM ? WHERE StartLocation = ? AND Destination = ?";
+	var params = [table, start, dest];
+	connection.query(query, params, function(err, result){
+		if(err){
+			res.send({status: "error"}, "Could not find flights");
+		}else{
+			
 		}
-	}
-}
+
+
+	});
+});
 
 
 
