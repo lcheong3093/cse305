@@ -5,17 +5,6 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-//connect to mysql server
-var session = require('connect-session');
-var MySQLStore = require('connect-mysql')(session);
-var options = {
-  config:{
-    user: '',
-    password: '',
-    database: 'db'
-  }
-};
-
 var index = require('./routes/index');
 var users = require('./routes/users');
 

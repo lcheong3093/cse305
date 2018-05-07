@@ -1,7 +1,16 @@
 var express = require('express');
 var path = require('path');
 var router = express.Router();
-//var play_json = require('/public/javascripts/play.json');
+
+//connect to mysql server
+var mysql = require('mysql');
+var connection = mysql.createConnection({
+  host     : 'localhost',
+  user     : 'me',
+  password : 'secret',
+  database : 'my_db'
+});
+connection.connect();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -13,16 +22,23 @@ router.get('/home', function(req, res){
 });
 
 router.get('/signup', function(req,res){
-	console.log("SIGNUP");
-	res.render('signup');
+  console.log("SIGNUP");
+  res.render('signup');
 });
 
 router.post('/login', function(req, res){
   var user = req.body.username;
   var pass = req.body.password;
 
-  console.log("user:: " + user + " pass: " + pass);
+  console.log("LOGIN --> user: " + user + " pass: " + pass);
   
+});
+router.post('signup', function(req, res){
+  var user = req.body.username;
+  var email = req.body.email;
+  var password = req.body.password;
+
+  console.log("SIGNUP --> user: " + user + " email: " + email + " pass: " + pass);
 });
 
 router.post('/ttt/play', function(req, res) {
