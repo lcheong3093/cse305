@@ -10,7 +10,11 @@ var connection = mysql.createConnection({
   password : 'secret',
   database : 'my_db'
 });
-connection.connect();
+connection.connect(function(err){
+	if(err) throw err;
+
+	console.log("mysql connected");
+});
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -34,11 +38,18 @@ router.post('/login', function(req, res){
   
 });
 router.post('signup', function(req, res){
-  var user = req.body.username;
+  var name = req.body.name;
+  var username = req.body.username;
   var email = req.body.email;
   var password = req.body.password;
-
+  
   console.log("SIGNUP --> user: " + user + " email: " + email + " pass: " + pass);
+  var sql = "INSERT INTO users (name, username, email, password) VALUES (?, ?, ?, ?)";
+  var params = [name, username, email, password];
+  con.query(sql, params, function (err, result) {
+    if (err) throw err;
+    console.log("records inserted: " + result.affectRows);
+  });
 });
 
 router.post('/ttt/play', function(req, res) {
