@@ -44,11 +44,12 @@ router.post('signup', function(req, res){
   var password = req.body.password;
   
   console.log("SIGNUP --> user: " + user + " email: " + email + " pass: " + pass);
+
   var sql = "INSERT INTO users (name, username, email, password) VALUES (?, ?, ?, ?)";
   var params = [name, username, email, password];
   con.query(sql, params, function (err, result) {
     if (err) throw err;
-    console.log("records inserted: " + result.affectRows);
+    console.log("users inserted: " + result.affectRows);
   });
 });
 
