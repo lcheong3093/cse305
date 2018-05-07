@@ -2,6 +2,8 @@ var express = require('express');
 var path = require('path');
 var router = express.Router();
 
+var rand = require("generate-key");
+
 //connect to mysql server
 var mysql = require('mysql');
 var connection = mysql.createConnection({
@@ -38,6 +40,10 @@ router.post('/login', function(req, res){
 	
 	if(user === 'test' && pass === 'pass')
 		res.render('home');
+	else if(user === 'admin' && pass === 'pass')
+		res.render('management');
+	else
+		res.send({status: "error", message: "could not find user"});
   
 });
 
@@ -79,29 +85,68 @@ router.post('/search', function(req, res){
 		if(err){
 			res.send({status: "error"}, "Could not find flights");
 		}else{
-
-
+			res.render('results', {results: result});
 		}
 
 
 	});
 });
 
-// router.post('/book', function(req,res){
-// 	var type = req.body.type; //What the user is booking (hotel, flight, cruise, etc.)
+router.post('/bookflight', function(req,res){
+	// var type = req.body.type; //what the user is booking (hotel, flight, cruise, etc.)
+	var flightID = req.body.flightID;
+	var name = req.body.name;
+	var age = req.body.age;
+	var confirmation = rand.generatekey();
 
-// });
+	/*Trip information*/
+	var tripID = rand.generatekey();
+	var cost = req.body.dest;
+	var size = req.body.size;
+	//Dates
+	var start = req.body.start;
+	var end = req.body.end;
+	//Locations
+	var source = req.body.source;
+	var dest = req.body.dest;
 
-// router.post('/book2', function(req,res){
-// 	var size = req.body.size; //party size
 
-// 	var passengers = [];
-// 	for(var i=0; i<size; i++){
-// 		passengers.push()
-// 	}
-// });
+	if(size === 1){
+		insertPassenger(name, age, tripID);
+		insertTrip(tripID, start, end, source, dest, cost, size);
+		res.render('book', {size: size, tripID: tripID, name: name, age: age});
+	}else{
 
+	}
+});
 
+router.post('/book2', function(req,res){
+	var size = req.body.size; 		//party size
+	var tripID = req.body.tripID;	//group's trip ID
 
+	var passengers = [];
+	for(var i=0; i<size; i++){
+		passengers.push()
+	}
+});
+
+function insertPassenger(name, age, tripID){
+	var passengerID = rand.generatekey();
+
+}
+
+function insertTrip(tripID, start, end, source, dest, cost, size){
+	var sql = "INSERT INTO Trip (TripID, StartDate, EndDate, StartLocation, Destination, TransportationID, AccommodationID, Cost, Size) VALUES (?, ?, ?, ?)";
+  var params = [username, name, email, password];
+  connection.query(sql, params, function (err, result) {
+		if (err) {
+			// throw err;
+			res.send({status: "error"});
+		}else{
+			console.log("users inserted: " + result.affectRows);
+			res.send({status: "OK"});
+		}
+  });
+}
 module.exports = router;
 
