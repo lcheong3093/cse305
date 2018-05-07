@@ -6,9 +6,10 @@ var router = express.Router();
 var mysql = require('mysql');
 var connection = mysql.createConnection({
   host     : 'localhost',
-  user     : 'root',
-  password : 'kerfuffle3633*',
-  database : 'Travel_Agency'
+  user	   : 'haoychen',
+  password : 'password',
+  database : 'Travel_Agency',
+  insecureAuth: true
 });
 connection.connect(function(err){
 	if(err) throw err;

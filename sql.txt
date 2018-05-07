@@ -1,0 +1,142 @@
+USE Travel_Agency;
+
+CREATE TABLE Trip (
+    TripID int NOT NULL AUTO_INCREMENT,
+    StartDate date NOT NULL,
+    EndDate date,
+    StartLocation int,
+    EndLocation int,
+    TransportationID int,
+    AccommodationID int NOT NULL,
+    Cost int  NOT NULL,
+    PRIMARY KEY (TripID),
+    CONSTRAINT FK_StartLocation FOREIGN KEY (StartLocation)
+    REFERENCES Location(LocationID),
+    CONSTRAINT FK_EndLocation FOREIGN KEY (EndLocation)
+    REFERENCES Location(LocationID),
+    CONSTRAINT FK_Transportation FOREIGN KEY (TransportationID)
+    REFERENCES Transportation(TransportationID),
+    CONSTRAINT FK_AccommodationID FOREIGN KEY (AccommodationID)
+    REFERENCES Accommodation(AccommodationID),
+    CONSTRAINT FK_Cost FOREIGN KEY (Cost)
+    REFERENCES Payment(PaymentID)
+);
+
+
+CREATE TABLE Transportation (
+    TransportationID int NOT NULL AUTO_INCREMENT,
+    Type ENUM(“Car”, “Flight”, “Cruise”) NOT NULL,
+    PRIMARY KEY (TransportationID)
+);
+
+CREATE TABLE CarRental (
+    CarRentalID int NOT NULL,
+    RentalCost int NOT NULL,
+    PRIMARY KEY (TransportationID),
+    CONSTRAINT FK_CarRentalID FOREIGN KEY(CarRentalID) 
+    REFERENCES Transportation(TransportationID)
+);
+
+CREATE TABLE Flight(
+    FlightID int NOT NULL,
+    FlightCost int NOT NULL,
+    StartLocation int NOT NULL,
+    Destination int NOT NULL,
+    Class varchar(8),
+    FlightCarrier varchar(30),
+    PRIMARY KEY (FlightID),
+    CONSTRAINT FK_FlightID FOREIGN KEY (FlightID)
+    REFERENCES Transportation(TransportationID),
+    CONSTRAINT FK_FlightStartLocation FOREIGN KEY (StartLocation)
+    REFERENCES Location(LocationID),
+    CONSTRAINT FK_FlightDestination FOREIGN KEY (Destination)
+    REFERENCES Location(LocationID)
+);
+
+CREATE TABLE Cruise(
+    CruiseID int NOT NULL,
+    CruiseCost int NOT NULL,
+    StartLocation int NOT NULL,
+    Destination int NOT NULL,
+    PRIMARY KEY (CruiseID),
+    CONSTRAINT FK_CruiseID FOREIGN KEY (CruiseID)
+    REFERENCES Transportation(TransportationID),
+    CONSTRAINT FK_CruiseStartLocation FOREIGN KEY (StartLocation)
+    REFERENCES Location(LocationID),
+    CONSTRAINT FK_CruiseDestination FOREIGN KEY (Destination)
+    REFERENCES Location(LocationID)
+);
+
+CREATE TABLE Location(
+    LocationID int NOT NULL AUTO_INCREMENT,
+    State varchar(20),
+    City varchar(20) NOT NULL,
+    Country varchar(20) NOT NULL,
+    PRIMARY KEY (LocationID),
+);
+
+CREATE TABLE Passenger(
+    PassengerID int NOT NULL AUTO_INCREMENT,
+    TripID int,
+    Gender varchar(20),
+    Age int,
+    PRIMARY KEY (PassengerID),
+    CONSTRAINT FK_TripID FOREIGN KEY (TripID)
+    REFERENCES Trip(TripID)
+);
+
+CREATE TABLE Review(
+    PassengerID int NOT NULL,
+    TripID int NOT NULL,
+    Rating int,
+    Comment varchar(45535),
+    PRIMARY KEY (PassengerID, TripID),
+    CONSTRAINT FK_PassengerID FOREIGN KEY (PassengerID)
+    REFERENCES Passenger(PassengerID)
+    CONSTRAINT FK_TripID FOREIGN KEY (TripID)
+    REFERENCES Trip(TripID)
+
+);
+
+CREATE TABLE Accomodation(
+    AccomodationID int NOT NULL AUTO_INCREMENT,
+    CheckInDate date,
+    CheckOutDate date,
+    Rate double,
+    Type varchar(20),
+    PRIMARY KEY (AccomodationID),
+);
+
+CREATE TABLE Payment(
+    PaymentID int NOT NULL AUTO_INCREMENT,
+    PassengerID int NOT NULL,
+    PaymentType varchar(20) NOT NULL,
+    Amount int NOT NULL,
+    PRIMARY KEY (PaymentID),
+    CONSTRAINT FK_PassengerID FOREIGN KEY (PassengerID)
+    REFERENCES Passenger(PassengerID)
+);
+
+CREATE TABLE Credit Card(
+    CardID int NOT NULL,
+    ExpirationDate date,
+    SecurityCode int,
+    PRIMARY KEY (CardID),
+);
+
+CREATE TABLE eCheck(
+    CheckID int NOT NULL,
+    BankAccNum int NOT NULL,
+    PRIMARY KEY (CheckID),
+);
+
+CREATE TABLE Employee(
+    EmployeeID int NOT NULL AUTO_INCREMENT,
+    Role varchar(20),
+    SupervisorID int NOT NULL,
+    DateJoined date,
+    PRIMARY KEY (EmployeeID),
+    CONSTRAINT SelfKey FOREIGN KEY (SupervisorID) 
+    REFERENCES Employee(EmployeeID),
+);
+
