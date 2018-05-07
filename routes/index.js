@@ -19,15 +19,14 @@ connection.connect(function(err){
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
-});
-
-router.get('/home', function(req, res){
   res.render('index');
 });
 
+router.get('/login', function(req, res){
+  res.render('login');
+});
+
 router.get('/signup', function(req,res){
-  console.log("SIGNUP");
   res.render('signup');
 });
 
@@ -55,15 +54,15 @@ router.post('/signup', function(req, res){
   connection.query(sql, params, function (err, result) {
 		if (err) {
 			// throw err;
-			res.send({status: "error"});
+			res.render('error');
 		}else{
 			console.log("users inserted: " + result.affectRows);
-			res.send({status: "OK"});
+			res.render('login');
 		}
   });
 });
 
-router.get('/userhome', function(req, res){
+router.get('/home', function(req, res){
 	res.render('home');
 });
 
