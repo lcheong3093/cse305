@@ -80,6 +80,7 @@ router.get('/search', function(req, res){
 		if(err){
 			res.send({status: "error"}, "Could not find flights");
 		}else{
+
 			
 		}
 
