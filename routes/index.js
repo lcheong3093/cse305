@@ -12,13 +12,12 @@ router.get('/home', function(req, res){
   res.render('index');
 });
 
-router.post('/ttt', function(req, res){
-  var name = req.body.name;
-  var d = new Date();
-  var date = name + " " + (d.getMonth()+1) + "/" + d.getDate() + "/" + d.getFullYear() ;
+router.post('/login', function(req, res){
+  var user = req.body.username;
+  var pass = req.body.password;
+
+  console.log("user:: " + user + " pass: " + pass);
   
-  console.log("name: " + name);
-  res.render('play', {name:date});
 });
 
 router.post('/ttt/play', function(req, res) {
