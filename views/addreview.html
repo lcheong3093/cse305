@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <title>View Trips</title>
+    <title>Add Review</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<link rel="icon" type="image/png" href="/images/icons/favicon.ico"/>
@@ -29,30 +29,17 @@
 
     <main role="main">
       <div class="jumbotron">
-      <form class="form-inline my-2 my-lg-0" action="/addreview" method="get">
-        <div class="container"><br><br>
-          <h1 class="display-3">Trips</h1>
-          <p>Trip ID: A09g1bZSg</p>
-          <p>Start Date: 5/7/2018</p>
-          <p>End Date: 5/10/2018</p>
-          <p>Start Location: New York City</p>
-          <p>End Location: San Francisco</p>
-          <p>Transportation ID: zi0gb0OAp</p>
-          <p>Accommodation ID: AOFG091hb</p>
-          <p>Cost: $393</p>
-        </div>
-        <button id="button_trips" type="submit" class="btn btn-lg btn-block btn-primary">Add a review</button>
-      </form>
-      </div>
-    </main>    
-    
-    <main role="main">
-      <div class="jumbotron">
-        <div class="container"><br><br>
-          <h1 class="display-3">Reviews</h1>
-          <p>Comments: flight was on time, local sightseeing was very fun</p>
-          <p>Suggestions: offer more hotel bookings</p>
-        </div>
+        <form action="/home" method="get">
+            <div class="form-group">
+                <label for="FormControlTextarea1">Comments</label>
+                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="FormControlTextarea2">Suggestions</label>
+                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+            </div>
+          <button id="button3" type="submit" class="btn btn-lg btn-block btn-primary">Submit Review</button>
+        </form>      
       </div>
     </main>
     
