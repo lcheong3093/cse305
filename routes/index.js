@@ -97,8 +97,8 @@ router.post('/search', function(req, res){
 	//Query (required params)
 	console.log("/search");
 	var table = req.body.traveltype;	//Transportation type
-	var start = req.body.from;
-	var dest = req.body.to;
+	var start = parseInt(req.body.from);
+	var dest = parseInt(req.body.to);
 
 	var query = "SELECT StartLocation, Destination FROM ? WHERE StartLocation = ? AND Destination = ?";
 	var params = [table, start, dest];
