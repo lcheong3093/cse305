@@ -102,9 +102,9 @@ router.post('/search', function(req, res){
 	var start = parseInt(req.body.from);
 	var dest = parseInt(req.body.to);
 
-	var query = "'SELECT StartLocation, Destination FROM" + table + "WHERE StartLocation = " + start + " AND Destination = " + dest + "'";
-	var params = [start, dest];
-	connection.query(query, params, function(err, result){
+	var query = "SELECT StartLocation, Destination FROM" + table + "WHERE StartLocation = " + start + " AND Destination = " + dest;
+	// var params = [start, dest];
+	connection.query(query, function(err, result){
 		if(err){
 			throw err;
 			res.send({status: "error", message: "could not perform search"});
