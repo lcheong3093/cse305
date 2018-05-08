@@ -1,8 +1,8 @@
 .img-fluid {
     position: relative;
     float: left;
-    max-width:  30%;
-    max-height: 200px;
+    max-width:  150px;
+    max-height: 100px;
     background-position: 50% 50%;
     background-repeat:   no-repeat;
     background-size:     cover;
