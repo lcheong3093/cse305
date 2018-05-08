@@ -91,9 +91,9 @@ router.get('/payment', function(req, res){
 
 router.post('/search', function(req, res){
 	//Query (required params)
-	var table = req.body.transportation;	//Transportation type
-	var start = req.body.start;
-	var dest = req.body.destination;
+	var table = req.body.traveltype;	//Transportation type
+	var start = req.body.from;
+	var dest = req.body.to;
 
 	var query = "SELECT StartLocation, Destination FROM ? WHERE StartLocation = ? AND Destination = ?";
 	var params = [table, start, dest];
