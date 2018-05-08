@@ -95,6 +95,7 @@ router.get('/payment', function(req, res){
 
 router.post('/search', function(req, res){
 	//Query (required params)
+	console.log("/search");
 	var table = req.body.traveltype;	//Transportation type
 	var start = req.body.from;
 	var dest = req.body.to;
