@@ -104,6 +104,7 @@ router.post('/search', function(req, res){
 	var params = [table, start, dest];
 	connection.query(query, params, function(err, result){
 		if(err){
+			throw err;
 			res.send({status: "error", message: "could not perform search"});
 		}else{
 			console.log("RESULTS: ", result);
