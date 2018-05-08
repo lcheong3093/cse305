@@ -107,35 +107,37 @@ router.post('/search', function(req, res){
 
 router.post('/bookflight', function(req,res){
 	/*Flight information*/
-	var flightID = req.body.flightID;
-	var cost = req.body.cost;
-	//Locations
-	var source = req.body.source;
-	var dest = req.body.dest;
+	// var flightID = req.body.flightID;
+	// var cost = req.body.cost;
+	// //Locations
+	// var source = req.body.source;
+	// var dest = req.body.dest;
 
-	/*Trip information*/
-	var tripID = rand.generatekey();
-	var cost = req.body.dest;
-	var size = req.body.size;
-	//Dates
-	var start = req.body.start;
-	var end = req.body.end;
+	// /*Trip information*/
+	// var tripID = rand.generatekey();
+	// var cost = req.body.dest;
+	// var size = req.body.size;
+	// //Dates
+	// var start = req.body.start;
+	// var end = req.body.end;
 	
-	var trip = {id:tripID, start:start, end:end, source:source, dest:dest, transportationID:flightID, accommodationID:null, cost:cost}
-
+	// var trip = {id:tripID, start:start, end:end, source:source, dest:dest, transportationID:flightID, accommodationID:null, cost:cost}
+	
 	res.render('hotel', trip);
 });
 
 router.post('/bookhotel', function(req, res){
-	var trip = req.body.trip;		//trip object so far
-	console.log("TRIP INSERT (/bookhotel): ", trip);
+	// var trip = req.body.trip;		//trip object so far
+	// console.log("TRIP INSERT (/bookhotel): ", trip);
 
-	/*Hotel Information*/
-	var id = req.body.hotelID;
-	var cost = req.body.cost;
+	// /*Hotel Information*/
+	// var id = req.body.hotelID;
+	// var cost = req.body.cost;
 
-	trip.accommodationID = id;
-	trip.cost = trip.cost + cost;
+	// trip.accommodationID = id;
+	// trip.cost = trip.cost + cost;
+
+	// var trip = trip
 
 	res.render('passengers', trip);
 
@@ -144,11 +146,13 @@ router.post('/bookhotel', function(req, res){
 //Add rest of passengers in party & pay for trip
 router.post('/confirmation', function(req, res){
 	var trip = req.body.trip;
-	console.log("FINAL TRIP INSERT: ", trip);
 
 	/*Main Passenger Information*/
 	var name = req.body.name;
 	var numOfPassengers = req.body.partySize;
+
+	trip.cost = trip.cost*numOfPassengers;
+	console.log("FINAL TRIP INSERT: ", trip);
 
 	insertTrip(trip);
 	insertPassenger(name, numOfPassengers, trip.id);
