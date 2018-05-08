@@ -2,7 +2,7 @@ var express = require('express');
 var path = require('path');
 var router = express.Router();
 
-var rand = require("generate-key");
+var rand = require('random-number-generator');
 
 //connect to mysql server
 var mysql = require('mysql');
@@ -107,37 +107,37 @@ router.post('/search', function(req, res){
 
 router.post('/bookflight', function(req,res){
 	/*Flight information*/
-	// var flightID = req.body.flightID;
-	// var cost = req.body.cost;
-	// //Locations
-	// var source = req.body.source;
-	// var dest = req.body.dest;
+	var flightID = req.body.flightID;
+	var cost = req.body.cost;
+	//Locations
+	var source = req.body.source;
+	var dest = req.body.dest;
 
-	// /*Trip information*/
-	// var tripID = rand.generatekey();
-	// var cost = req.body.dest;
-	// var size = req.body.size;
-	// //Dates
-	// var start = req.body.start;
-	// var end = req.body.end;
+	/*Trip information*/
+	var tripID = rand.generatekey();
+	var cost = req.body.dest;
+	var size = req.body.size;
+	//Dates
+	var start = req.body.start;
+	var end = req.body.end;
 	
-	// var trip = {id:tripID, start:start, end:end, source:source, dest:dest, transportationID:flightID, accommodationID:null, cost:cost}
-	
+	var trip = {id:tripID, start:start, end:end, source:source, dest:dest, transportationID:flightID, accommodationID:null, cost:cost}
+
 	res.render('hotel', trip);
 });
 
 router.post('/bookhotel', function(req, res){
-	// var trip = req.body.trip;		//trip object so far
-	// console.log("TRIP INSERT (/bookhotel): ", trip);
+	var trip = req.body.trip;		//trip object so far
+	console.log("TRIP INSERT (/bookhotel): ", trip);
 
-	// /*Hotel Information*/
-	// var id = req.body.hotelID;
-	// var cost = req.body.cost;
+	/*Hotel Information*/
+	var id = req.body.hotelID;
+	var cost = req.body.cost;
 
-	// trip.accommodationID = id;
-	// trip.cost = trip.cost + cost;
+	trip.accommodationID = id;
+	trip.cost = trip.cost + cost;
 
-	// var trip = trip
+	var trip = trip
 
 	res.render('passengers', trip);
 
@@ -158,6 +158,15 @@ router.post('/confirmation', function(req, res){
 	insertPassenger(name, numOfPassengers, trip.id);
 
 
+});
+
+router.post('/addreview', function(req, res){
+	var comment = req.body.comment; 
+	var rating = req.body.rating;
+	var passengerID = req.body.passengerID;
+	var tripID = req.body.tripID;
+
+	insertReview(passengerID, tripID, rating, comment);
 });
 
 function insertPassenger(name, num, tripID){
@@ -191,6 +200,20 @@ function insertTrip(trip){
 			res.send({status: "error", message: "could not insert trip"});
 		}else{
 			console.log("trip inserted: " + result.affectRows);
+		}
+  });
+}
+
+function insertReview(passengerID, tripID, rating, comment){
+	console.log("inserting review for TRIP " + tripID + " by PASSENGER " + passengerID);
+	var sql = "INSERT INTO Review (PassengerID, TripID, Rating, Comment) VALUES (?, ?, ?, ?)";
+  var params = [passengerID, tripID, rating, comment];
+  connection.query(sql, params, function (err, result) {
+		if (err) {
+			// throw err;
+			res.send({status: "error", message: "could not insert review"});
+		}else{
+			console.log("review inserted: " + result.affectRows);
 		}
   });
 }
