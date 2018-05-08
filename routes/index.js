@@ -111,7 +111,7 @@ router.post('/search', function(req, res){
 			res.send({status: "error", message: "could not perform search"});
 		}else{
 			console.log("RESULTS: ", result);
-			res.render('results');
+			res.render('search');
 		}
 
 
