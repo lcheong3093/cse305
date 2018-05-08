@@ -36,6 +36,10 @@ router.get('/viewtrips', function(req,res){
   res.render('viewtrips');
 });
 
+router.get('/confirmation', function(req,res){
+	res.render('confirmation');
+  });
+  
 router.post('/login', function(req, res){
   var user = req.body.username;
   var pass = req.body.password;
