@@ -1,8 +1,8 @@
-.imgimgimg {
+.img-fluid {
     position: relative;
     float: left;
-    width:  30%;
-    height: 30%;
+    max-width:  30%;
+    max-height: 200px;
     background-position: 50% 50%;
     background-repeat:   no-repeat;
     background-size:     cover;
