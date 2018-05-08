@@ -32,6 +32,10 @@ router.get('/signup', function(req,res){
   res.render('signup');
 });
 
+router.get('/viewtrips', function(req,res){
+  res.render('viewtrips');
+});
+
 router.post('/login', function(req, res){
   var user = req.body.username;
   var pass = req.body.password;
