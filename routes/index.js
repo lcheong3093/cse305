@@ -83,9 +83,10 @@ router.post('/search', function(req, res){
 	var params = [table, start, dest];
 	connection.query(query, params, function(err, result){
 		if(err){
-			res.send({status: "error"}, "Could not find flights");
+			res.send({status: "error"}, "Could not find results");
 		}else{
-			res.render('results', {results: result});
+			console.log("RESULTS: ", result);
+			res.render('results');
 		}
 
 
@@ -93,11 +94,12 @@ router.post('/search', function(req, res){
 });
 
 router.post('/bookflight', function(req,res){
-	// var type = req.body.type; //what the user is booking (hotel, flight, cruise, etc.)
+	/*Flight information*/
 	var flightID = req.body.flightID;
-	var name = req.body.name;
-	var age = req.body.age;
-	var confirmation = rand.generatekey();
+	var cost = req.body.cost;
+	//Locations
+	var source = req.body.source;
+	var dest = req.body.dest;
 
 	/*Trip information*/
 	var tripID = rand.generatekey();
@@ -106,45 +108,73 @@ router.post('/bookflight', function(req,res){
 	//Dates
 	var start = req.body.start;
 	var end = req.body.end;
-	//Locations
-	var source = req.body.source;
-	var dest = req.body.dest;
+	
+	var trip = {id:tripID, start:start, end:end, source:source, dest:dest, transportationID:flightID, accommodationID:null, cost:cost}
 
-
-	if(size === 1){
-		insertPassenger(name, age, tripID);
-		insertTrip(tripID, start, end, source, dest, cost, size);
-		res.render('book', {size: size, tripID: tripID, name: name, age: age});
-	}else{
-
-	}
+	res.render('hotel', trip);
 });
 
-router.post('/book2', function(req,res){
-	var size = req.body.size; 		//party size
-	var tripID = req.body.tripID;	//group's trip ID
+router.post('/bookhotel', function(req, res){
+	var trip = req.body.trip;		//trip object so far
+	console.log("TRIP INSERT (/bookhotel): ", trip);
 
-	var passengers = [];
-	for(var i=0; i<size; i++){
-		passengers.push()
-	}
+	/*Hotel Information*/
+	var id = req.body.hotelID;
+	var cost = req.body.cost;
+
+	trip.accommodationID = id;
+	trip.cost = trip.cost + cost;
+
+	res.render('passengers', trip);
+
 });
 
-function insertPassenger(name, age, tripID){
-	var passengerID = rand.generatekey();
+//Add rest of passengers in party & pay for trip
+router.post('/confirmation', function(req, res){
+	var trip = req.body.trip;
+	console.log("FINAL TRIP INSERT: ", trip);
 
+	/*Main Passenger Information*/
+	var name = req.body.name;
+	var numOfPassengers = req.body.partySize;
+
+	insertTrip(trip);
+	insertPassenger(name, numOfPassengers, trip.id);
+
+
+});
+
+function insertPassenger(name, num, tripID){
+	var sql = "INSERT INTO Passenger (PassengerID, Name, TripID) VALUES (?, ?, ?)";
+	var params;
+  for(var i = 0; i <= num; i++){
+		var id = rand.generatekey();
+		if(i === 0){
+			params = [id, name, tripID];
+		}else{
+			params = [id, null, tripID];
+		}
+
+		connection.query(sql, params, function(err, result){
+			if(err){
+				res.send({status: "error", message: "could not insert passengers"});
+			}else{
+				console.log("inserted passengers");
+			}
+		});
+	}
 }
 
-function insertTrip(tripID, start, end, source, dest, cost, size){
-	var sql = "INSERT INTO Trip (TripID, StartDate, EndDate, StartLocation, Destination, TransportationID, AccommodationID, Cost, Size) VALUES (?, ?, ?, ?)";
-  var params = [username, name, email, password];
+function insertTrip(trip){
+	console.log("INSERTING TRIP: ", trip);
+	var sql = "INSERT INTO Trip (TripID, StartDate, EndDate, StartLocation, EndLocation, TransportationID, AccommodationID, Cost) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+  var params = [trip.id, trip.start, trip.end, trip.source, trip.dest, trip.transportationID, trip.accommodationID, trip.cost];
   connection.query(sql, params, function (err, result) {
 		if (err) {
 			// throw err;
-			res.send({status: "error"});
+			res.send({status: "error", message: "could not insert trip"});
 		}else{
-			console.log("users inserted: " + result.affectRows);
-			res.send({status: "OK"});
+			console.log("trip inserted: " + result.affectRows);
 		}
   });
 }
