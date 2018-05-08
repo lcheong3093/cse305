@@ -58,13 +58,14 @@ router.post('/signup', function(req, res){
   var sql = "INSERT INTO Users (username, name, email, password) VALUES (?, ?, ?, ?)";
   var params = [username, name, email, password];
   connection.query(sql, params, function (err, result) {
-		if (err) {
-			// throw err;
-			res.render('error');
-		}else{
-			console.log("users inserted: " + result.affectRows);
-			res.render('login');
-		}
+		// if (err) {
+		// 	// throw err;
+		// 	res.render('error');
+		// }else{
+		// 	console.log("users inserted: " + result.affectRows);
+		// 	res.render('login');
+		// }
+		res.render('login');
   });
 });
 
@@ -72,7 +73,18 @@ router.get('/home', function(req, res){
 	res.render('home');
 });
 
-//NEED TO TEST
+router.get('/search', function(req, res){
+	res.render('search');
+});
+
+router.get('/hotel', function(req, res){
+	res.render('hotel');
+});
+
+router.get('/payment', function(req, res){
+	res.render('payment');
+});
+
 router.post('/search', function(req, res){
 	//Query (required params)
 	var table = req.body.transportation;	//Transportation type
