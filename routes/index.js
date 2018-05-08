@@ -155,13 +155,16 @@ router.post('/confirmation', function(req, res){
 	var name = req.body.name;
 	var numOfPassengers = req.body.partySize;
 
+	/*Payment Information*/
+	var paymentID = req.body.paymentID;
+	var card = req.body.cardNumber;
+
 	trip.cost = trip.cost*numOfPassengers;
 	console.log("FINAL TRIP INSERT: ", trip);
 
+	insertPayment(paymentID, card, trip.cost);
 	insertTrip(trip);
 	insertPassenger(name, numOfPassengers, trip.id);
-
-
 });
 
 router.post('/addreview', function(req, res){
@@ -218,6 +221,20 @@ function insertReview(passengerID, tripID, rating, comment){
 			res.send({status: "error", message: "could not insert review"});
 		}else{
 			console.log("review inserted: " + result.affectRows);
+		}
+  });
+}
+
+function insertPayment(paymentID, cardNumber, amount){
+	console.log("inserting payment");
+	var sql = "INSERT INTO Payment (PaymentID, CardNumber, Amount) VALUES (?, ?, ?)";
+  var params = [paymentID, cardNumber, amount];
+  connection.query(sql, params, function (err, result) {
+		if (err) {
+			// throw err;
+			res.send({status: "error", message: "could not insert payment"});
+		}else{
+			console.log("payment inserted: " + result.affectRows);
 		}
   });
 }
