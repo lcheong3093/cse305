@@ -95,18 +95,23 @@ router.get('/payment', function(req, res){
 
 router.post('/search', function(req, res){
 	//Query (required params)
-	var table = req.body.transportation;	//Transportation type
-	var start = req.body.start;
-	var dest = req.body.destination;
+	console.log("/search");
+	
+	var table = req.body.traveltype;	//Transportation type
+	table = table.replace(/'/g,'');
+	var start = parseInt(req.body.from);
+	var dest = parseInt(req.body.to);
 
-	var query = "SELECT StartLocation, Destination FROM ? WHERE StartLocation = ? AND Destination = ?";
-	var params = [table, start, dest];
-	connection.query(query, params, function(err, result){
+	var query = "SELECT * FROM " + table + " WHERE StartLocation = " + start + " AND Destination = " + dest;
+	console.log(query);
+	// var params = [start, dest];
+	connection.query(query, function(err, result){
 		if(err){
-			res.send({status: "error"}, "Could not find results");
+			throw err;
+			res.send({status: "error", message: "could not perform search"});
 		}else{
 			console.log("RESULTS: ", result);
-			res.render('results');
+			res.render('search');
 		}
 
 
